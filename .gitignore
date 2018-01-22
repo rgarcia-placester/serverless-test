@@ -1,0 +1,7 @@
+# nodejs
+npm-debug.log
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
