@@ -16,7 +16,7 @@ module.exports.helloWorld = (event, context, callback) => {
       input: event,
       env: process.env,
       context: context
-    }),
+    }, null, 2),
   };
 
   callback(null, response);

@@ -18,6 +18,8 @@ functions:
     handler: handler.helloWorld
     memorySize: 128 # optional, in MB, default is 1024
     timeout: 1 # optional, in seconds, default is 6
+    environment:
+        FOO: bar
 
     # The `events` block defines how to trigger the handler.helloWorld code
     events:
