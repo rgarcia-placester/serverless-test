@@ -1,0 +1,4 @@
+profile: staging
+
+debug:
+  level: info

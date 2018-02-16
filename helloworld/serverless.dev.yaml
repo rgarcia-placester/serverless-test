@@ -1,2 +1,4 @@
+profile: dev
+
 debug:
   level: ${ssm:/path/to/service/id}

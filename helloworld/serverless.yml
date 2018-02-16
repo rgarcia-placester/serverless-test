@@ -15,6 +15,7 @@ provider:
   name: aws
   runtime: nodejs6.10
   stage: ${opt:stage, 'dev'}
+  profile: ${self:custom.config.profile}
 
 # The `functions` block defines what code to deploy
 functions:

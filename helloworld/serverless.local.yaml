@@ -1,2 +1,4 @@
+profile: local
+
 debug:
   level: ${env:USER}
