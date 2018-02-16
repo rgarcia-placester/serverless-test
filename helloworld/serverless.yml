@@ -7,10 +7,14 @@
 # The `service` block is the name of the service
 service: serverless-hello-world
 
+custom: 
+  config: ${file(serverless.${self:provider.stage}.yaml)}
+    
 # The `provider` block defines where your service will be deployed
 provider:
   name: aws
   runtime: nodejs6.10
+  stage: ${opt:stage, 'dev'}
 
 # The `functions` block defines what code to deploy
 functions:
@@ -19,7 +23,8 @@ functions:
     memorySize: 128 # optional, in MB, default is 1024
     timeout: 1 # optional, in seconds, default is 6
     environment:
-        FOO: bar
+      STAGE: ${self:provider.stage}
+      DEBUG_LEVEL: ${self:custom.config.debug.level}
 
     # The `events` block defines how to trigger the handler.helloWorld code
     events:
