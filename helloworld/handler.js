@@ -1,26 +1,30 @@
 'use strict';
 
-const bluebird = require('bluebird');
+const Promise    = require('bluebird');
+const helpers    = require('./src/helpers');
+const exceptions = require('./src/exceptions');
+
 
 module.exports.helloWorld = (event, context, callback) => {
 
-  console.time('event');
-
-  const response = {
-    statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*', // Required for CORS support to work
-    },
-    body: JSON.stringify({
+  Promise
+  .resolve(event)
+  //.then(exceptions.throwError(new exceptions.NotFound()))
+  //.then(exceptions.throwError(new exceptions.Http('Unspected Fail', 500)))
+  .then(helpers.Authentication(helpers.Authentication.allowAll))
+  .then(helpers.Authorization(helpers.Authorization.allowAll))
+  .then(function handler(req) {
+    return {
       message: 'Go Serverless v1.0! Your function executed successfully!',
-      input: event,
+      input: req,
       env: process.env,
       context: context
-    }, null, 2),
-  };
-
-  callback(null, response);
-
-  console.log(event.httpMethod, event.path, response.statusCode, console.timeEnd('event'));
-
+    }
+  })
+  .then(helpers.handleOk())
+  .catch(helpers.handleNotFoundError())
+  .catch(helpers.handleUnauthorizedError())
+  .catch(helpers.handleForbiddenError())
+  .catch(helpers.handleError())
+  .then(helpers.sendResponse(callback))
 };
